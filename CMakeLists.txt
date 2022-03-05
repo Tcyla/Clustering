@@ -55,31 +55,31 @@ endif()
 #                            BUILD TYPE                             #
 #####################################################################
 
-# On choisit un type de compilation par défaut
-if(NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE DEBUG)
-endif()
+# # On choisit un type de compilation par défaut
+# if(NOT CMAKE_BUILD_TYPE)
+#         set(CMAKE_BUILD_TYPE DEBUG)
+# endif()
 
-# On indique les options de compilation générales
-set(CMAKE_CXX_FLAGS "-std=c++17")
+# # On indique les options de compilation générales
+# set(CMAKE_CXX_FLAGS "-std=c++17")
 
-# On indique les options de compilations pour des compilations spécifiques
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -Wextra -Werror") 
+# # On indique les options de compilations pour des compilations spécifiques
+# set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+# set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -Wextra") 
 
 
-# On affiche un message à l'appel de cmake
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-message("   Compiler CXX:         ${CMAKE_CXX_COMPILER}")
-message("   Compiler CXX flags:         ${CMAKE_CXX_FLAGS}")
+# # On affiche un message à l'appel de cmake
+# message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+# message("   Compiler CXX:         ${CMAKE_CXX_COMPILER}")
+# message("   Compiler CXX flags:         ${CMAKE_CXX_FLAGS}")
 
-if(CMAKE_BUILD_TYPE MATCHES "DEBUG")
-        message("   Compiler CXX debug flags:   ${CMAKE_CXX_FLAGS_DEBUG}")
-endif(CMAKE_BUILD_TYPE MATCHES "DEBUG")
+# if(CMAKE_BUILD_TYPE MATCHES "DEBUG")
+#         message("   Compiler CXX debug flags:   ${CMAKE_CXX_FLAGS_DEBUG}")
+# endif(CMAKE_BUILD_TYPE MATCHES "DEBUG")
 
-if(CMAKE_BUILD_TYPE MATCHES "RELEASE")
-        message("   Compiler CXX release flags: ${CMAKE_CXX_FLAGS_RELEASE}")
-endif(CMAKE_BUILD_TYPE MATCHES "RELEASE")
+# if(CMAKE_BUILD_TYPE MATCHES "RELEASE")
+#         message("   Compiler CXX release flags: ${CMAKE_CXX_FLAGS_RELEASE}")
+# endif(CMAKE_BUILD_TYPE MATCHES "RELEASE")
 
 
 #####################################################################
@@ -111,16 +111,15 @@ target_link_libraries(
 #####################################################################
 enable_testing()
 
-file(GLOB_RECURSE TEST_FILES tests/*.cc)
+# file(GLOB_RECURSE TEST_FILES tests/*.cc)
 
 add_executable(
   test_clustering
-  ${TEST_FILES}
+  tests/tests.cc
 )
 
 target_link_libraries(
   test_clustering
-  clustering
   gtest_main
 )
 
