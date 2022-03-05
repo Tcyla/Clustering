@@ -44,8 +44,7 @@ if (GNUPLOT_FOUND)
   # add sciplot dir to project
   include_directories(${sciplot_content_SOURCE_DIR})
 
-  # define __HAS_SCIPLOT__
-  add_compile_definitions(__HAS_SCIPLOT__)
+
 
 else()
   message("GNUPLOT was not found")
@@ -55,31 +54,31 @@ endif()
 #                            BUILD TYPE                             #
 #####################################################################
 
-# # On choisit un type de compilation par défaut
-# if(NOT CMAKE_BUILD_TYPE)
-#         set(CMAKE_BUILD_TYPE DEBUG)
-# endif()
+# On choisit un type de compilation par défaut
+if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE DBG)
+endif()
 
-# # On indique les options de compilation générales
-# set(CMAKE_CXX_FLAGS "-std=c++17")
+# On indique les options de compilation générales
+set(CMAKE_CXX_FLAGS "-std=c++17")
 
-# # On indique les options de compilations pour des compilations spécifiques
-# set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-# set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wall -Wextra") 
+# On indique les options de compilations pour des compilations spécifiques
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra") 
 
 
-# # On affiche un message à l'appel de cmake
-# message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-# message("   Compiler CXX:         ${CMAKE_CXX_COMPILER}")
-# message("   Compiler CXX flags:         ${CMAKE_CXX_FLAGS}")
+# On affiche un message à l'appel de cmake
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+message("   Compiler CXX:         ${CMAKE_CXX_COMPILER}")
+message("   Compiler CXX flags:         ${CMAKE_CXX_FLAGS}")
 
-# if(CMAKE_BUILD_TYPE MATCHES "DEBUG")
-#         message("   Compiler CXX debug flags:   ${CMAKE_CXX_FLAGS_DEBUG}")
-# endif(CMAKE_BUILD_TYPE MATCHES "DEBUG")
+if(CMAKE_BUILD_TYPE MATCHES "DBG")
+        message("   Compiler CXX debug flags:   ${CMAKE_CXX_FLAGS_DBG}")
+endif(CMAKE_BUILD_TYPE MATCHES "DBG")
 
-# if(CMAKE_BUILD_TYPE MATCHES "RELEASE")
-#         message("   Compiler CXX release flags: ${CMAKE_CXX_FLAGS_RELEASE}")
-# endif(CMAKE_BUILD_TYPE MATCHES "RELEASE")
+if(CMAKE_BUILD_TYPE MATCHES "RELEASE")
+        message("   Compiler CXX release flags: ${CMAKE_CXX_FLAGS_RELEASE}")
+endif(CMAKE_BUILD_TYPE MATCHES "RELEASE")
 
 
 #####################################################################
@@ -93,7 +92,9 @@ include_directories(includes)
 file(GLOB_RECURSE clustering_SOURCE_FILES src/*.cpp)
 
 # Creation of libclustering.a
-if (GNUPLOT_FOUND)
+if (GNUPLOT_FOUND AND (CMAKE_BUILD_TYPE MATCHES "RELEASE"))
+  # define __HAS_SCIPLOT__
+  add_compile_definitions(__USE_SCIPLOT__)
   add_library(clustering ${clustering_SOURCE_FILES} ${sciplot_content_SOURCE_DIR})
 else()
   add_library(clustering ${clustering_SOURCE_FILES})

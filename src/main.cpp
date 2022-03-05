@@ -6,7 +6,7 @@
 #include "KMeans.hpp"
 #include "DBSCAN.hpp"
 
-#ifdef __HAS_SCIPLOT__
+#ifdef __USE_SCIPLOT__
 #include <sciplot/sciplot.hpp>  // plotting utilities
 
 using namespace sciplot;
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 
 
 
-#ifdef __HAS_SCIPLOT__
+#ifdef __USE_SCIPLOT__
     std::cout << "has SCIPLOT" << std::endl;
     draw_clusters();
 #endif
