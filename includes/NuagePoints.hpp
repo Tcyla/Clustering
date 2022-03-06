@@ -58,4 +58,60 @@ public:
 };
 
 
+template<class T>
+NuagePoints<T>& NuagePoints<T>::operator=(const NuagePoints<T>& P)
+{
+    this -> mLenTab = P.mLenTab;
+    this -> mDistance = P.mDistance;
+    auto tmpTab = mTab; 
+    mTab = new T[mLenTab];
+    for (size_t i = 0; i < mLenTab; ++i)
+    {
+        mTab[i] = P[i];
+    } 
+    delete [] tmpTab;
+    return *this;
+}
+
+template<class T>
+NuagePoints<T> NuagePoints<T>::operator+(const NuagePoints<T>& P)
+{
+    size_t len = mLenTab + P.mLenTab;
+    T tmpTab[len];
+    size_t i = 0;
+    while( i < mLenTab )
+    {
+        tmpTab[i] = (*this)[i];
+        ++i;
+    }
+    assert(i==mLenTab);
+    while( i < len )
+    {
+        tmpTab[i] = P.mTab[i-mLenTab];
+        ++i;
+    }
+    assert(i==len);
+    NuagePoints<T> res(len, tmpTab, mDistance);
+    return res;
+}
+
+template<class T> 
+double distance_euclidienne(T a, T b)
+{
+    if (a.size() != b.size())
+    {
+        throw invalid_argument("#a and #b should have the same length");
+    } 
+    double res = 0;
+    auto iteA = begin(a);
+    auto iteB = begin(b);
+    while (iteA != end(a) || iteB != end(b))
+    {
+        res += (double) (*iteA) * (*iteB);
+        ++iteA;
+        ++iteB;
+    }
+    return sqrt(res);
+}
+
 #endif
