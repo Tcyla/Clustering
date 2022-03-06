@@ -44,8 +44,6 @@ if (GNUPLOT_FOUND)
   # add sciplot dir to project
   include_directories(${sciplot_content_SOURCE_DIR})
 
-
-
 else()
   message("GNUPLOT was not found")
 endif()
@@ -64,7 +62,7 @@ set(CMAKE_CXX_FLAGS "-std=c++17")
 
 # On indique les options de compilations pour des compilations spécifiques
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra") 
+set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra -Werror") 
 
 
 # On affiche un message à l'appel de cmake
