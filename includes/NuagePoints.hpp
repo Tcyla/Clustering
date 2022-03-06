@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <cmath>
+#include <iterator>
 #include <exception>
+#include <cassert>
 
 
 using namespace std;
@@ -21,7 +23,7 @@ private:
 public:
     NuagePoints(): mDistance(nullptr), mLenTab(0) { mTab = T(); }
     
-    NuagePoints(int nbobs, T* obs, 
+    NuagePoints(size_t nbobs, T* obs, 
         double(*dis)(T, T) = distance_euclidienne<T>): mDistance(dis), 
                                                        mLenTab(nbobs) 
     {
@@ -38,7 +40,7 @@ public:
         mTab = new T[mLenTab];
         for (size_t i = 0; i < mLenTab; ++i)
         {
-            mTab[i] = P[i];
+            mTab[i] = P.mTab[i];
         }
     }
 
@@ -47,12 +49,12 @@ public:
         delete [] mTab;
     }
 
-    size_t size(){ return mLenTab; }  
+    size_t size(){ return this -> mLenTab; }  
     void set_distance( double(*dis)(T, T) ) { mDistance = dis; }
     double get_distance(T a, T b) { return mDistance(a, b); }
 
     NuagePoints<T>& operator=(const NuagePoints<T>&);
-    T& operator[](size_t i) { return mTab[i]; }
+    T operator[](size_t i) { return mTab[i]; }
     NuagePoints<T>  operator+(const NuagePoints<T>&);
 
 };
