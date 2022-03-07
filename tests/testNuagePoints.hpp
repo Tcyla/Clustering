@@ -36,10 +36,7 @@ TEST(testNuagePoints, testDistanceEuclidienne)
 
 }
 
-TEST(testNuagePoints, test)
-{
-    
-}
+double dist(int a, int b){ return abs(b-a); }
 
 TEST(testNuagePoints, testGetDistance)
 {  
@@ -47,7 +44,6 @@ TEST(testNuagePoints, testGetDistance)
 }
 
 
-double dist(int a, int b){ return abs(b-a); }
 
 TEST(testNuagePoints, testOperatorPlus)
 {
