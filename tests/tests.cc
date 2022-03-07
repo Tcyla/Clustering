@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "testNuagePoints.hpp"
-#include "testClustering.hpp"
 #include "testKMeans.hpp"
 #include "testDBSCAN.hpp"
 
