@@ -8,8 +8,9 @@ template <class T>
 class KMeans : public Clustering<T>
 {
 private:
-    T mTabCentre;
+    T* mTabCentre;
     int mNIter;
+    double mTWCV = nan; // Total Within Cluster Variation
 
     // fonction outils
     void initClusters(); 
@@ -21,12 +22,20 @@ public:
 
     virtual KMeans<T> operator=(const KMeans<T>&);
     virtual void calculClusters();
+
+    double TWCV(){return mTWCV;}
 };
 
 template<class T>
 ostream& operator<<(ostream& o, KMeans<T> k)
 {
-    return o; 
+    o << "            KMeans               " << endl
+      /* 
+                (repeat for each Cluster)
+      << "Cluster " << i << " : " << endl; 
+                (points du cluster)
+      */
+      << "Total Within Cluster Variation = " << K.TWCV();
 }
 
 template<class T>
