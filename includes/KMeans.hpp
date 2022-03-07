@@ -18,6 +18,7 @@ private:
 
 public:
     KMeans();
+    KMeans(int, NuagePoints<T>&);
     ~KMeans();
 
     virtual KMeans<T> operator=(const KMeans<T>&);
