@@ -27,7 +27,7 @@ public:
 };
 
 template<class T>
-ostream& operator<<(ostream& o, KMeans<T> k)
+ostream& operator<<(ostream& o, KMeans<T> K)
 {
     o << "            KMeans               " << endl
       /* 
@@ -36,11 +36,14 @@ ostream& operator<<(ostream& o, KMeans<T> k)
                 (points du cluster)
       */
       << "Total Within Cluster Variation = " << K.TWCV();
+    
+    return o;
 }
 
 template<class T>
 KMeans<T>::KMeans()
 {
+    
 }
 
 template<class T>

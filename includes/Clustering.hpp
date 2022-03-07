@@ -19,7 +19,7 @@ public:
     int& operator[](size_t i){ return mIdCluster[i]; }
     virtual Clustering<T>& operator=(const Clustering<T>&); 
 
-    int  get_nbClusters()     { return mNbClusters; }
+    int  get_nbClusters(){ return mNbClusters; }
     void set_nbClusters(int n)
     {   
         if (n>0) 
@@ -49,7 +49,7 @@ Clustering<T>::Clustering()
 template <class T> 
 Clustering<T>::Clustering(int nCl, NuagePoints<T>& N): mNbClusters(nCl), mNuage(N)
 {
-    mIdCluster = new int[mNuage.size()]
+    mIdCluster = new int[mNuage.size()];
     for (auto i = 0u; i < mNuage.size(); ++i)
     {
         mIdCluster[i] = -10;
