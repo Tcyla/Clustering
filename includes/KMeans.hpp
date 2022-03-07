@@ -30,13 +30,19 @@ public:
 template<class T>
 ostream& operator<<(ostream& o, KMeans<T> K)
 {
-    o << "            KMeans               " << endl
-      /* 
-                (repeat for each Cluster)
-      << "Cluster " << i << " : " << endl; 
-                (points du cluster)
-      */
-      << "Total Within Cluster Variation = " << K.TWCV();
+    o << "            KMeans               " << endl;
+    
+    for (auto i=0u; i < K.get_nbClusters(); ++i)
+    {
+        o << "Cluster " << i << " : " << endl
+          << "( ";
+        for(auto j = 0u; j < K.get_nuage().size(); ++j)
+        { 
+            o << K.get_nuage()[i][j] << " ";
+        }
+        o << " )" << endl;
+    }
+    o << "Total Within Cluster Variation = " << K.TWCV();
     
     return o;
 }
