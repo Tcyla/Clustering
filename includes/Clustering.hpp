@@ -3,22 +3,31 @@
 
 #include <NuagePoints.hpp>
 
+using namespace std;
+
 template <class T>
 class Clustering
 {
-private:
+protected:
     int mNbClusters;
     NuagePoints<T> mNuage; 
     int* mIdCluster;
+    size_t* mNbElemCluster;
 public:
     Clustering();
     Clustering(int, NuagePoints<T>&);
     Clustering(const Clustering<T>&);
-    ~Clustering() { delete [] mIdCluster; }
+    virtual ~Clustering() 
+    { 
+        delete [] mIdCluster;
+        delete [] mNbElemCluster; 
+    }
 
     int& operator[](size_t i){ return mIdCluster[i]; }
     virtual Clustering<T>& operator=(const Clustering<T>&); 
 
+    size_t  get_nbElemCluster(size_t i){ return mNbElemCluster[i]; }
+    
     int  get_nbClusters(){ return mNbClusters; }
     void set_nbClusters(int n)
     {   
@@ -41,9 +50,10 @@ public:
 template <class T> 
 Clustering<T>::Clustering()
 {
-    mNbClusters = 1;
+    mNbClusters = 0;
     mNuage = NuagePoints<T>();
     mIdCluster = new int[0];
+    mNbClusters = new size_t[0];
 }
 
 template <class T> 
@@ -53,6 +63,11 @@ Clustering<T>::Clustering(int nCl, NuagePoints<T>& N): mNbClusters(nCl), mNuage(
     for (auto i = 0u; i < mNuage.size(); ++i)
     {
         mIdCluster[i] = -10;
+    }
+    mNbElemCluster = new size_t[mNbClusters];
+    for (auto i = 0l; i < mNbClusters; ++i)
+    {
+        mNbElemCluster[i] = 0;
     }
 }
 
@@ -65,6 +80,11 @@ Clustering<T>::Clustering(const Clustering<T>& C)
     for (auto i = 0u; i < mNuage.size(); ++i)
     {
         mIdCluster[i] = C.mIdCluster[i];
+    }
+    mNbElemCluster = new size_t[mNbClusters]; 
+    for (auto i = 0l; i < mNbClusters; ++i)
+    {
+        mNbElemCluster[i] = C.mNbElemCluster[i];
     }
 }
 
@@ -80,6 +100,14 @@ Clustering<T>& Clustering<T>::operator=(const Clustering<T>& C)
         mIdCluster[i] = C.mIdCluster[i];
     }
     delete [] tmp;
+    auto tmp1 = mNbElemCluster;
+    mNbElemCluster = new size_t[mNbClusters]; 
+    for (auto i = 0l; i < mNbClusters; ++i)
+    {
+        mNbElemCluster[i] = C.mNbElemCluster[i];
+    }
+    delete [] tmp1;
+    return *this;
 }
 
 #endif
