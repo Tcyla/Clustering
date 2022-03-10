@@ -62,11 +62,11 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
       << "Epsilon : " 
       << D.epsilon() << endl;
     
-    for (auto i=0l; i < D.get_nbClusters(); ++i)
+    for (auto i=0l; (unsigned) i < D.get_nbClusters(); ++i)
     {
         o << "Cluster " << i << " : " << endl
           << "      ";
-        for(auto j = 0l; j < D.get_nuage().size(); ++j)
+        for(auto j = 0u; j < D.get_nuage().size(); ++j)
         {
             if (D[j]==i)
             {
@@ -84,7 +84,7 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
     }
     o << "Bruit : " << endl
       << "      ";
-    for(auto j = 0l; j < D.get_nuage().size(); ++j)
+    for(auto j = 0u; j < D.get_nuage().size(); ++j)
     {
         if (D[j]==-10)
         {
@@ -207,10 +207,9 @@ bool DBSCAN<T>::etendCluster(unsigned idPt , int numCluster, vector<int>& vois)
     }
     else // tous les points de vois sont atteignable par densité
     {
-        cout << idPt;
         this -> mIdCluster[idPt] = numCluster;
         // Pour chaque point du voisinage
-        int count = 0;
+        size_t count = 0;
         while ( count < vois.size() )
         {
             if (!mIsPtVisT[vois[count]]) // si le point n'a pas été visité
@@ -254,7 +253,6 @@ void DBSCAN<T>::calculClusters()
             }
         }
     }
-    cout << "coucou\n";
     this -> mNbClusters = cluster;
 }
 
