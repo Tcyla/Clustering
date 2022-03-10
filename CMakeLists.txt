@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 3.3)
 
 # Set Project Name
-project(clustering)
+project(clustering VERSION 0.5)
 
 # GoogleTest requires at least C++11
 set(CMAKE_CXX_STANDARD 17)
@@ -57,12 +57,16 @@ if(NOT CMAKE_BUILD_TYPE)
         set(CMAKE_BUILD_TYPE DBG)
 endif()
 
+if(NOT USE_SCIPLOT)
+        set(USE_SCIPLOT FALSE)
+endif()
+
 # On indique les options de compilation générales
 set(CMAKE_CXX_FLAGS "-std=c++17")
 
 # On indique les options de compilations pour des compilations spécifiques
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra -Werror") 
+set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra -fpermissive") 
 
 
 # On affiche un message à l'appel de cmake
@@ -90,7 +94,7 @@ include_directories(includes)
 file(GLOB_RECURSE clustering_SOURCE_FILES src/*.cpp)
 
 # Creation of libclustering.a
-if (GNUPLOT_FOUND AND (CMAKE_BUILD_TYPE MATCHES "RELEASE"))
+if (GNUPLOT_FOUND AND (CMAKE_BUILD_TYPE MATCHES "RELEASE" OR USE_SCIPLOT MATCHES TRUE))
   # define __HAS_SCIPLOT__
   add_compile_definitions(__USE_SCIPLOT__)
   add_library(clustering ${clustering_SOURCE_FILES} ${sciplot_content_SOURCE_DIR})
