@@ -18,14 +18,12 @@ int Ktab1[] = {1, 2, 3, 4, 5, 21, 22, 23, 24, 25};
     
 NuagePoints<int> Kn(2, Ktab1, Kdist);
 
-
 auto tab2 = vector({
                     valarray({2., 1.}), 
                     valarray({1.5, 1.5}),
                     valarray({3., 1.5})}
                     );
 NuagePoints<valarray<double>> Kn1(3, tab2.data());
-
 
 TEST(testKMeans, testAlgo)
 {

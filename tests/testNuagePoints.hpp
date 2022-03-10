@@ -44,20 +44,8 @@ TEST(testNuagePoints, testGetDistance)
 }
 
 
-
 TEST(testNuagePoints, testOperatorPlus)
 {
-    // int tab1[] = {1,2};
-    
-    // NuagePoints<int> n(2, tab1, dist);
-    // NuagePoints<int> n1(2, tab1, dist);
-    // auto n2 = n + n1;
-
-    // for (auto i = 0u; i < n2.size(); ++i)
-    // {
-    //     ASSERT_EQ(n2[i], 1 + i%2);
-    // }
-
     auto tab2 = vector({valarray({1., 2., 1.}), 
                         valarray({2., 1., 12.}) });
     NuagePoints<valarray<double>> n3(2, tab2.data());
@@ -72,6 +60,6 @@ TEST(testNuagePoints, testOperatorPlus)
         {    
             ASSERT_EQ(n5[i][j],  tab2[i%2][j]);
         }
-    } 
+    }
 }
 

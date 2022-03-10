@@ -21,21 +21,19 @@
 
 ## Résutats et Discussion
 
-## Conclusion et pistes d'amélioration 
+![](result.png)
+
+## Conclusion et pistes d'amélioration
 
 ## Sources
 ###### KMeans
 *https://en.wikipedia.org/wiki/K-means_clustering, consulté le 5 mars 2021*
 
 ###### DBSCAN
-*https://fr.wikipedia.org/wiki/DBSCAN,  consulté le 9 mars 2021*
+*https://en.wikipedia.org/wiki/DBSCAN,  consulté le 8 mars 2021*
 
 *Ester, Kriegel, Sander, Xu. (1996). “A Density-Based Algorithm for Discovering Clusters
 in Large Spatial Databaseswith Noise” in Proceedings of the 2nd International Conference on Knowledge Discovery and Data mining.*
-
-*Schubert, E., Sander, J., Ester, M., Kriegel, H. P., & Xu, X.“DBSCAN revisited, revisited: why and how you should (still) use DBSCAN". (2017). In ACM Transactions on Database Systems (TODS), 42(3), 19.*
-
-
 
 ## Annexe : Compiler et exécuter le programme
 ### Compiler
@@ -43,6 +41,12 @@ in Large Spatial Databaseswith Noise” in Proceedings of the 2nd International 
 ###### Ubuntu
 ```bash
     apt install gnuplot-qt
+```
+En mode `RELEASE` cmake Utilise la sortie graphique si GNUPLOT est disponible, en mode `DBG` , il faut affecter `TRUE` à la variable `USE_SCIPLOT`
+
+```bash
+    cmake -D USE_SCIPLOT=TRUE ..
+    make
 ```
 
 ### Exécuter

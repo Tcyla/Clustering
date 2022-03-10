@@ -11,20 +11,22 @@
 
 using namespace std;
 
-double DBdist(int a, int b){ return abs(b-a); }
+class testDBSCAN : public ::testing::Test
+{
 
-int DBtab1[] = {1,2};
-    
-NuagePoints<int> DBn (2, DBtab1, DBdist);
-NuagePoints<int> DBn1(2, DBtab1, DBdist);
+};
 
-auto DBtab2 = vector({valarray({1., 2., 1.}), 
-                        valarray({2., 1., 12.}) });
-NuagePoints<valarray<double>> DBn3(2, DBtab2.data());
-NuagePoints<valarray<double>> DBn4(2, DBtab2.data());
-
-
-TEST(testDBSCAN, test)
+TEST_F(testDBSCAN, testCalculEpsilonVoisinage)
 {
     
+}
+
+TEST_F(testDBSCAN, testEtendClusters)
+{
+
+}
+
+TEST_F(testDBSCAN, testCalculClusters)
+{
+
 }
