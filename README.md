@@ -55,4 +55,6 @@ Dans le dossier `.build/`, utiliser l'exécutable `./run` pour lancer le program
 Le programme utilise une sortie graphique pour afficher les clusters ainsi que la sortie standard pour afficher le rapport d'exécution des algorithmes. Attention, ce rapport peut excéder la capacité d'affichage du terminal si le nombre de points est trop élévé.
 
 Les tests utilisent la librairie Googletest, `./test_clustering` peut prendre en argument tous ceux définis par la librarie. 
-En particulier `./test_clustering -h` permet de lister les argumements possibles et `./test_clustering --filter=<regex>` permet de n'exécuter qu'une partie des tests.
+En particulier `./test_clustering -h` permet de lister les argumements possibles et `./test_clustering --filter=<regex>` permet de n'exécuter qu'une partie des tests.  
+
+
