@@ -84,6 +84,7 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
                   << "      ";
             }
         }
+        o << "Nombre d'éléments : " << D.get_nbElemCluster(i) <<endl;
     }
     o << "\nBruit : " << endl
       << "      ";
@@ -102,6 +103,7 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
               << "      ";
         }
     }
+    o << "Nombre d'éléments : " << D.get_nbElemCluster(D.get_nbClusters()) <<endl;
 
     o << endl
       << "---------------------------------------------"
