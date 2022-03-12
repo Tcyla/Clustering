@@ -12,6 +12,8 @@ using namespace std;
 
 template<class T> double distance_euclidienne(T, T);
 
+// ? Which assumptions on T? 
+
 template <class T>
 class NuagePoints
 {
