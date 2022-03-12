@@ -51,12 +51,13 @@ public:
         delete [] mTab;
     }
 
-    size_t size(){ return mLenTab; }  
+    size_t size() const { return mLenTab; }  
     void set_distance( double(*dis)(T, T) ) { mDistance = dis; }
-    double get_distance(T a, T b) { return mDistance(a, b); }
+    double get_distance(T a, T b) const { return mDistance(a, b); }
 
     NuagePoints<T>& operator=(const NuagePoints<T>&);
     T operator[](size_t i) { return mTab[i]; }
+    T get_point(size_t i) const { return mTab[i]; }
     NuagePoints<T>  operator+(const NuagePoints<T>&);
 
 };
@@ -65,7 +66,7 @@ template<class T>
 ostream& operator<<(ostream& o, NuagePoints<T> P)
 {
     T tmpPoint;
-    for(auto j = 0; j < P.size(); ++j)
+    for(auto j = 0u; j < P.size(); ++j)
     {
         
         tmpPoint = P[j];

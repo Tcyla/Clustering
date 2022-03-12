@@ -49,11 +49,11 @@ ostream& operator<<(ostream& o, KMeans<T> K)
       << "Nombre de Cluster : " 
       << K.get_nbClusters() << endl;
     
-    for (auto i=0l; i < K.get_nbClusters(); ++i)
+    for (auto i=0l; (unsigned) i < K.get_nbClusters(); ++i)
     {
         o << "Cluster " << i << " : " << endl
           << "      ";
-        for(auto j = 0l; j < K.get_nuage().size(); ++j)
+        for(auto j = 0u; j < K.get_nuage().size(); ++j)
         {
             if (K[j]==i)
             {
@@ -72,7 +72,7 @@ ostream& operator<<(ostream& o, KMeans<T> K)
     }
     o << "Centres : " << endl
       << "      ";
-    for (auto i=0l; i < K.get_nbClusters(); ++i)
+    for (auto i=0u; i < K.get_nbClusters(); ++i)
     {
         o << "Cluster " << i << " : ";
         tmpPoint = K.get_Centre(i);
@@ -117,7 +117,7 @@ template<class T>
 KMeans<T>::KMeans(const KMeans<T>& K) : Clustering<T>(K), mNIter(K.mNIter), mTWCV(K.mTWCV)
 {
     mTabCentre = new T[K.mNbClusters];
-    for (auto i = 0l; i < K.mNbClusters; ++i)
+    for (auto i = 0u; i < K.mNbClusters; ++i)
     {
         mTabCentre[i] = K.mTabCentre[i];
     }
@@ -135,7 +135,7 @@ KMeans<T>& KMeans<T>::operator=(const KMeans<T>& K)
     this -> Clustering<T>::operator=(K);
     auto tmp = this -> mTabCentre;
     this -> mTabCentre = new T[K.mNbClusters];
-    for (auto i = 0l; i < K.mNbClusters; ++i)
+    for (auto i = 0u; i < K.mNbClusters; ++i)
     {
         this -> mTabCentre[i] = K.mTabCentre[i];
     }
@@ -170,7 +170,7 @@ void KMeans<T>::assign2Cluster()
     {
         argmin = 0;
         min = this->mNuage.get_distance(mTabCentre[0], this->mNuage[i]);  
-        for (auto j = 1l; j < this->mNbClusters; ++j)
+        for (auto j = 1u; j < this->mNbClusters; ++j)
         {
             tmp = this->mNuage.get_distance(mTabCentre[j], this->mNuage[i]);
             if (min > tmp)
@@ -192,7 +192,7 @@ void KMeans<T>::initClusters()
 {
     /* Initialise les centre des clusters avec des points aléatoirement tiré */
     srand(time(0));
-    auto i=0l;
+    auto i=0u;
     size_t randId;
     while(i < this->mNbClusters)
     {
@@ -229,23 +229,11 @@ void KMeans<T>::calculCentre()
             *it = 0;
         }
     }
-
-    // ok init
-    // for (auto i = 0u; i < this -> mNbClusters; ++i)
-    // {
-    //     cout << "( ";
-    //     for(auto it = begin(this -> mTabCentre[i]); it != end(this -> mTabCentre[i]); ++it)
-    //     {
-    //         cout << *it << " ";
-    //     }
-    //     cout << ")   ";
-    // }
-    // cout << endl;
     
     //
     for (auto i = 0u; i < this->mNuage.size(); ++i)
     {
-        mTabCentre[this -> mIdCluster[i]] += this->mNuage[i];
+        mTabCentre[this -> mIdCluster[i]] += this -> mNuage[i]; // ! FIXME : only works with valarrays
     }
 
     // Initialise tous les centres à l'origine

@@ -212,6 +212,7 @@ int main()
         plotk1.xrange(-3, 3);
         plotk1.yrange(-3, 3);
 
+
         // creating a new plot object
         Plot plotd = plot_clusters(d);
         Plot plotd1 = plot_clusters(d1);
@@ -224,6 +225,12 @@ int main()
         plotd1.xrange(-3, 3);
         plotd1.yrange(-3, 3);
 
+        // //
+        // plotk.xlabel("Kmeans");
+        // plotk.ylabel("Exemple 1");
+        // plotk1.ylabel("Exemple 2");
+        // plotd.xlabel("DBSCAN");
+
         Figure fig = {
                       {plotk, plotd}, 
                       {plotk1, plotd1}
@@ -232,6 +239,7 @@ int main()
         fig.size(600, 600);
         fig.palette("matlab");
         fig.show();
+        fig.save("../result.png");
         
 
     #endif

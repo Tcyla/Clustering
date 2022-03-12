@@ -5,6 +5,8 @@
 
 #include <vector>
 
+#define BREAK() {std::cout << "in " << __FILE__ << " : " << __FUNCTION__ << " (line " << __LINE__ + 1 << ")\n";}
+
 using namespace std;
 
 template <class T>
@@ -15,6 +17,7 @@ private:
     unsigned mMinPts;
     bool* mIsPtVisT;
 
+public:
     vector<int> calculVoisinage(T);
     bool etendCluster(unsigned, int, vector<int>&);
 
@@ -43,7 +46,7 @@ public:
         else
             throw invalid_argument("eps should be strictly positive");
     }
-
+    
     virtual DBSCAN& operator=(const DBSCAN<T>&);
 
     virtual void calculClusters();
@@ -56,7 +59,7 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
     o << "---------------------------------------------" << endl
       << "------            DBSCAN               ------" << endl
       << "Nombre de point à classer : " 
-      << D.get_nuage().size() << endl
+      << D.get_nuage_size() << endl
       << "MinPts : " 
       << D.minPts() << endl
       << "Epsilon : " 
@@ -66,11 +69,11 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
     {
         o << "Cluster " << i << " : " << endl
           << "      ";
-        for(auto j = 0u; j < D.get_nuage().size(); ++j)
+        for(auto j = 0u; j < D.get_nuage_size(); ++j)
         {
-            if (D[j]==i)
+            if (D.get_idCluster(j)==i)
             {
-                tmpPoint = D.get_nuage()[j];
+                tmpPoint = D.get_point(j);
                 o << "( ";
                 for (auto it = begin(tmpPoint); it != end(tmpPoint); ++it)
                 {
@@ -82,13 +85,13 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
             }
         }
     }
-    o << "Bruit : " << endl
+    o << "\nBruit : " << endl
       << "      ";
-    for(auto j = 0u; j < D.get_nuage().size(); ++j)
+    for(auto j = 0u; j < D.get_nuage_size(); ++j)
     {
-        if (D[j]==-10)
+        if (D.get_idCluster(j)==-10)
         {
-            tmpPoint = D.get_nuage()[j];
+            tmpPoint = D.get_point(j);
             o << "( ";
             for (auto it = begin(tmpPoint); it != end(tmpPoint); ++it)
             {
@@ -111,14 +114,14 @@ ostream& operator<<(ostream& o, const DBSCAN<T>& D)
 template<class T>
 DBSCAN<T>::DBSCAN(): Clustering<T>(), mEps(1), mMinPts(1)
 {
-    mIsPtVisT= new int[0];
+    mIsPtVisT= new bool[0];
 }
 
 template<class T>
 DBSCAN<T>::DBSCAN(const DBSCAN<T>& D): Clustering<T>(D), mEps(D.mEps), mMinPts(D.mMinPts)
 {
-    mIsPtVisT = new bool[D.get_nuage().size()];
-    for (auto i = 0u ; D.get_nuage().size() ; ++i)
+    mIsPtVisT = new bool[D.get_nuage_size()];
+    for (auto i = 0u ; D.get_nuage_size() ; ++i)
     {
         mIsPtVisT[i] = D.mIsPtVisT[i];
     }
@@ -148,8 +151,8 @@ DBSCAN<T>& DBSCAN<T>::operator=(const DBSCAN<T>& D)
     this -> mEps = D.mEps;
     this -> mMinPts = D.mMinPts;
     auto tmp = this -> mIsPtVisT;
-    this -> mIsPtVisT = new bool[D.get_nuage().size()];
-    for (auto i = 0u ; D.get_nuage().size() ; ++i)
+    this -> mIsPtVisT = new bool[D.get_nuage_size()];
+    for (auto i = 0u ; D.get_nuage_size() ; ++i)
     {
         mIsPtVisT[i] = D.mIsPtVisT[i];
     }
@@ -187,7 +190,7 @@ vector<int> DBSCAN<T>::calculVoisinage(T p)
 }
 
 template<class T>
-bool DBSCAN<T>::etendCluster(unsigned idPt , int numCluster, vector<int>& vois)
+bool DBSCAN<T>::etendCluster(const unsigned idPt , const int numCluster, vector<int>& vois)
 {
     /* 
      *  
@@ -232,6 +235,7 @@ bool DBSCAN<T>::etendCluster(unsigned idPt , int numCluster, vector<int>& vois)
             }
             ++count;
         }
+        res = true; 
     }
     return res;
 
@@ -241,11 +245,11 @@ template<class T>
 void DBSCAN<T>::calculClusters()
 {
     vector<int> vois;
-    int cluster = 0;
+    size_t cluster = 0;
     for (auto i = 0u ; i < (this -> mNuage.size()) ; ++i)
     {
         if (!mIsPtVisT[i])
-        {
+        {           
             vois = calculVoisinage( this -> mNuage[i] );
             if (etendCluster(i, cluster, vois))
             {
@@ -253,7 +257,8 @@ void DBSCAN<T>::calculClusters()
             }
         }
     }
-    this -> mNbClusters = cluster;
+    this -> set_nbClusters(cluster); 
+    this -> computeNbElemCluster(); 
 }
 
 #endif
