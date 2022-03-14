@@ -139,4 +139,28 @@ double distance_euclidienne(T a, T b)
     return sqrt(res);
 }
 
+/* Distance de Minkovsky définie par
+ * 
+ */
+template<class T, int p> 
+double distance_minkovsky(T a, T b)
+{
+    if (a.size() != b.size())
+    {
+        throw invalid_argument("a and b should have the same length");
+    } 
+    double res = 0;
+    auto iteA = begin(a);
+    auto iteB = begin(b);
+    while (iteA != end(a) && iteB != end(b))
+    {
+        res += powf(fabs((*iteA) - (*iteB)), p);
+        ++iteA;
+        ++iteB;
+    }
+    return powf(res, 1/p);
+}
+
+
+
 #endif
