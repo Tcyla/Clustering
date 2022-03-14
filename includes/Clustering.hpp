@@ -11,7 +11,7 @@ class Clustering
 protected:
     size_t mNbClusters;
     NuagePoints<T> mNuage; 
-    int* mIdCluster;
+    int* mIdCluster; // ! FIXME: Id cluster est un tableau de int or mNBClusters est uint_64
     size_t* mNbElemCluster;
 public:
     Clustering();
