@@ -41,7 +41,7 @@ public:
 
     int get_idCluster(size_t i) const { return mIdCluster[i]; }
 
-    T get_point(size_t i) const { return mNuage.get_point(i); }
+    T get_point(size_t i) const { return mNuage[i]; }
     
     NuagePoints<T>& get_nuage() { return mNuage; }
     size_t get_nuage_size() const { return mNuage.size(); }
