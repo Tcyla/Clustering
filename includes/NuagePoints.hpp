@@ -46,20 +46,28 @@ public:
         {
             mTab[i] = P.mTab[i];
         }
-    }
+    } // Has no tests
 
     ~NuagePoints()
     {
         delete [] mTab;
     }
 
-    size_t size() const { return mLenTab; }  
+    size_t size() const { return mLenTab; }
     void set_distance( double(*dis)(T, T) ) { mDistance = dis; }
     double get_distance(T a, T b) const { return mDistance(a, b); }
 
-    NuagePoints<T>& operator=(const NuagePoints<T>&);
-    T operator[](size_t i) { return mTab[i]; }
-    T get_point(size_t i) const { return mTab[i]; }
+    NuagePoints<T>& operator=(const NuagePoints<T>&); // Has no tests
+    
+    T operator[] (size_t i) const
+    { 
+        if (i >= (this -> size()))
+        {
+            throw out_of_range("");        
+        }
+        return mTab[i]; 
+    }
+    
     NuagePoints<T>  operator+(const NuagePoints<T>&);
 
 };
@@ -139,12 +147,24 @@ double distance_euclidienne(T a, T b)
     return sqrt(res);
 }
 
-/* Distance de Minkovsky définie par
- * 
- */
 template<class T, int p> 
 double distance_minkovsky(T a, T b)
 {
+   /* 
+    ** Distance de Minkovsky définie par
+    ** $$d_p(x,y) = \left(\sum_{k=1}^d{\|x_k-y_k\|^p}\right)^{1/p} $$
+    ** pour $ p \geq 1 $
+    ** 
+    ** si $p=-1$ 
+    ** on considère la norme de minkovsky infinie
+    ** d_\infty (x, y) = \max_{k\in\{1, ... , d\}\|x_k-y_k\|}
+    */
+
+    if (p < 1 && p!=-1)
+    {
+        throw invalid_argument("p should be equal to -1 or greater or equal to 1");
+    }
+
     if (a.size() != b.size())
     {
         throw invalid_argument("a and b should have the same length");
@@ -152,15 +172,38 @@ double distance_minkovsky(T a, T b)
     double res = 0;
     auto iteA = begin(a);
     auto iteB = begin(b);
-    while (iteA != end(a) && iteB != end(b))
+
+    if (p == -1)
     {
-        res += powf(fabs((*iteA) - (*iteB)), p);
-        ++iteA;
-        ++iteB;
+        while (iteA != end(a) && iteB != end(b))
+        {
+            res = max(fabs((*iteA) - (*iteB)), res);
+            ++iteA;
+            ++iteB;
+        }
     }
-    return powf(res, 1/p);
+    else if (p==2)
+    {
+        while (iteA != end(a) && iteB != end(b))
+        {
+            res += (double) ((*iteA) - (*iteB)) * ((*iteA) - (*iteB));
+            ++iteA;
+            ++iteB;
+        }
+        res = sqrt(res);
+    }
+    else
+    {
+        while (iteA != end(a) && iteB != end(b))
+        {
+            res += powf(fabs((*iteA) - (*iteB)), p);
+            ++iteA;
+            ++iteB;
+        }
+        res = powf(res, (double) 1/p);
+    }
+    
+    return res;
 }
-
-
 
 #endif
