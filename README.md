@@ -5,6 +5,7 @@
 ## K-Moyennes
 ### Algorithme utilisé
 ```
+
 ```
 ### Analyse
 
@@ -21,7 +22,10 @@
 
 ## Résutats et Discussion
 
-![](result.png)
+![résultats](result.png)
+
+
+
 
 ## Conclusion et pistes d'amélioration
 
@@ -34,6 +38,9 @@
 
 *Ester, Kriegel, Sander, Xu. (1996). “A Density-Based Algorithm for Discovering Clusters
 in Large Spatial Databaseswith Noise” in Proceedings of the 2nd International Conference on Knowledge Discovery and Data mining.*
+
+*R. Xu and D. C. Wunsch, "Survey of Clustering Algorithms," IEEE Transactions on Neural Networks,
+Institute of Electrical and Electronics Engineers (IEEE), May 2005.*
 
 ## Annexe : Compiler et exécuter le programme
 ### Compiler

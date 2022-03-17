@@ -11,6 +11,7 @@ project(clustering VERSION 0.5)
 # GoogleTest requires at least C++11
 set(CMAKE_CXX_STANDARD 17)
 
+
 #####################################################################
 #                               DEPS                                #
 #####################################################################
@@ -48,6 +49,7 @@ else()
   message("GNUPLOT was not found")
 endif()
 
+
 #####################################################################
 #                            BUILD TYPE                             #
 #####################################################################
@@ -66,7 +68,7 @@ set(CMAKE_CXX_FLAGS "-std=c++17")
 
 # On indique les options de compilations pour des compilations spécifiques
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra") 
+set(CMAKE_CXX_FLAGS_DBG "-O0 -g -Wall -Wextra --coverage") 
 
 
 # On affiche un message à l'appel de cmake
@@ -95,7 +97,6 @@ file(GLOB_RECURSE clustering_SOURCE_FILES src/*.cpp)
 
 # Creation of libclustering.a
 if (GNUPLOT_FOUND AND (CMAKE_BUILD_TYPE MATCHES "RELEASE" OR USE_SCIPLOT MATCHES TRUE))
-  # define __HAS_SCIPLOT__
   add_compile_definitions(__USE_SCIPLOT__)
   add_library(clustering ${clustering_SOURCE_FILES} ${sciplot_content_SOURCE_DIR})
 else()
@@ -112,19 +113,34 @@ target_link_libraries(
 #####################################################################
 #                               Tests                               #
 #####################################################################
+
 enable_testing()
 
-# file(GLOB_RECURSE TEST_FILES tests/*.cc)
 
+# generate testing and coverage files
+include(CTest)
+include(Dart)
+
+set(CTEST_BINARY_DIRECTORY "./bin")
+# set gcov coverage options
+set(
+  CTEST_COVERAGE_COMMAND "/usr/bin/gcov"  
+  CTEST_COVERAGE_EXTRA_FLAGS "--all-blocks --function-summaries --long-file-names --demangled-names"
+  #CTEST_CUSTOM_COVERAGE_EXCLUDE "/home/gracques/Projets/Clustering/.build/_deps/*" "/usr/include/c++/"
+)
+
+# adding tests
 add_executable(
   test_clustering
   tests/tests.cc
 )
 
+# linking GTest libraries
 target_link_libraries(
   test_clustering
   gtest_main
 )
 
+# automates ctest test generation (add_test, ...)
 include(GoogleTest)
 gtest_discover_tests(test_clustering)

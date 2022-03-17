@@ -11,32 +11,110 @@
  ******************************************************/
 
 using namespace std;
+using darray = valarray<double>;
 
-double Kdist(int a, int b){ return abs(b-a); }
-
-int Ktab1[] = {1, 2, 3, 4, 5, 21, 22, 23, 24, 25};
-    
-NuagePoints<int> Kn(2, Ktab1, Kdist);
-
-auto tab2 = vector({
-                    valarray({2., 1.}), 
-                    valarray({1.5, 1.5}),
-                    valarray({3., 1.5})}
-                    );
-NuagePoints<valarray<double>> Kn1(3, tab2.data());
-
-TEST(testKMeans, testAlgo)
+class testKMeans : public ::testing::Test
 {
-    // KMeans<int> k1(2, Kn);
-    // for (auto i = 1; i < 5; ++i)
-    // {
-    //     ASSERT_EQ(k1[i], k1[0]);
-    //     ASSERT_EQ(k1[5+i], k1[5]);
-    // }
+public:
+    NuagePoints<darray> Kn;
+    NuagePoints<darray> Kn1;
+    KMeans<darray>K;
+    KMeans<darray>K1;
+    KMeans<darray>K2;
     
-    KMeans<valarray<double>> k2(2, Kn1);
-    ASSERT_EQ(k2[0], k2[1]);
-    ASSERT_NE(k2[2], k2[0]);
-    
+    testKMeans()
+    {
+        auto tab = vector({
+                            valarray({2., 1., 2.}), 
+                            valarray({1.5, 1.5, 3.}),
+                            valarray({3., 1.5, 4.}), 
+                            valarray({-3., .5, 4.}) 
+                            });
+        auto tab2 = vector({
+                            valarray({2., 1.}), 
+                            valarray({1.5, 1.5}),
+                            valarray({3., 1.5})
+                            });
+ 
+        Kn = NuagePoints<darray>(tab2.size(), tab2.data());
+        Kn1 = NuagePoints<darray>(tab.size(), tab.data());
+        K = KMeans(2, Kn);
+        K1 = KMeans(3, Kn1);
+        K2 = KMeans(K);
+    }
+};
 
+/*
+ *                   Méthodes héritées
+ */
+
+TEST_F(testKMeans, testGetPoint)
+{
+    ASSERT_DOUBLE_EQ(K.get_point(0)[0], 2.); 
+    ASSERT_DOUBLE_EQ(K.get_point(0)[1], 1.); 
+    ASSERT_DOUBLE_EQ(K.get_point(1)[0], 1.5); 
+    ASSERT_DOUBLE_EQ(K.get_point(1)[1], 1.5); 
+    ASSERT_DOUBLE_EQ(K.get_point(2)[0], 3.); 
+    ASSERT_DOUBLE_EQ(K.get_point(2)[1], 1.5); 
+}
+
+TEST_F(testKMeans, testGetNuageSize)
+{
+
+    ASSERT_EQ(K.get_nuage_size(), 3);
+    ASSERT_EQ(K1.get_nuage_size(), 4);
+}
+
+TEST_F(testKMeans, testGetNbClusters)
+{
+    ASSERT_EQ(K.get_nbClusters(), 2);
+    ASSERT_EQ(K1.get_nbClusters(), 3);
+}
+
+TEST_F(testKMeans, testSetNbClusters)
+{
+    K.set_nbClusters(1);
+    ASSERT_EQ(K.get_nbClusters(), 1);
+    
+    K.set_nbClusters(2);
+    ASSERT_EQ(K.get_nbClusters(), 2);
+    
+    ASSERT_THROW(K.set_nbClusters(10), invalid_argument);
+    ASSERT_THROW(K.set_nbClusters(-10), invalid_argument);
+}
+
+TEST_F(testKMeans, testGetNbElemCluster)
+{
+    // ?
+}
+
+/*
+ *                    Méthodes propres
+ */
+
+TEST_F(testKMeans, testConstructors)
+{
+    
+}
+
+
+TEST_F(testKMeans, testGetCentre)
+{
+    
+}
+
+TEST_F(testKMeans, testGetnIter)
+{
+    
+}
+
+TEST_F(testKMeans, testGetTWCV)
+{
+    
+}
+
+
+TEST_F(testKMeans, testCalculClusters)
+{
+    
 }

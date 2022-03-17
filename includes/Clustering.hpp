@@ -9,9 +9,9 @@ template <class T>
 class Clustering
 {
 protected:
-    size_t mNbClusters;
+    int mNbClusters;
     NuagePoints<T> mNuage; 
-    int* mIdCluster; // ! FIXME: Id cluster est un tableau de int or mNBClusters est uint_64
+    int* mIdCluster;
     size_t* mNbElemCluster;
 public:
     Clustering();
@@ -29,12 +29,19 @@ public:
     size_t  get_nbElemCluster(size_t i) const { return mNbElemCluster[i]; }
     
     size_t  get_nbClusters() const { return mNbClusters; }
-    void set_nbClusters(size_t n)
-    {   
+    
+    void set_nbClusters(int n)
+    {
+        if (n < 0) 
+            throw invalid_argument("the number of clusters should be a positive integer.");
+        if (n > (int64_t) get_nuage_size())
+            throw invalid_argument("the number of clusters should be lesser than the numbre of points.");
+
         auto oldNbClusters = mNbClusters;
         mNbClusters = n;
         if (mNbClusters > oldNbClusters)
         {
+            // ????? !! ? 
             computeNbElemCluster();
         }
     }
@@ -52,7 +59,7 @@ public:
         auto tmp = mNbElemCluster;
         mNbElemCluster = new size_t[mNbClusters+1];
         
-        for (auto i = 0u; i <= mNbClusters; ++i)
+        for (auto i = 0l; i <= mNbClusters; ++i)
         {
             mNbElemCluster[i] = 0;
         }
@@ -90,7 +97,7 @@ Clustering<T>::Clustering(int nCl, NuagePoints<T>& N): mNbClusters(nCl), mNuage(
         mIdCluster[i] = -10;
     }
     mNbElemCluster = new size_t[mNbClusters + 1];
-    for (auto i = 0u; i <= mNbClusters; ++i)
+    for (auto i = 0l; i <= mNbClusters; ++i)
     {
         mNbElemCluster[i] = 0;
     }
@@ -107,7 +114,7 @@ Clustering<T>::Clustering(const Clustering<T>& C)
         mIdCluster[i] = C.mIdCluster[i];
     }
     mNbElemCluster = new size_t[mNbClusters + 1]; 
-    for (auto i = 0u; i <= mNbClusters; ++i)
+    for (auto i = 0l; i <= mNbClusters; ++i)
     {
         mNbElemCluster[i] = C.mNbElemCluster[i];
     }
@@ -127,12 +134,12 @@ Clustering<T>& Clustering<T>::operator=(const Clustering<T>& C)
     delete [] tmp;
     auto tmp1 = (this -> mNbElemCluster);
     this -> mNbElemCluster = new size_t[this -> mNbClusters + 1]; 
-    for (auto i = 0u; i <= this -> mNbClusters; ++i)
+    for (auto i = 0l; i <= this -> mNbClusters; ++i)
     {
         this -> mNbElemCluster[i] = C.mNbElemCluster[i];
     }
     delete [] tmp1;
-    return *this; // ! FIXME : segfault here
+    return *this; // ! FIXME : testDBSCAN segfault here 
 
 }
 

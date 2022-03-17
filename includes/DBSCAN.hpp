@@ -17,7 +17,6 @@ private:
     unsigned mMinPts;
     bool* mIsPtVisT;
 
-public:
     vector<int> calculVoisinage(T);
     bool etendCluster(unsigned, int, vector<int>&);
 
@@ -149,7 +148,7 @@ DBSCAN<T>::~DBSCAN()
 template<class T>
 DBSCAN<T>& DBSCAN<T>::operator=(const DBSCAN<T>& D)
 {
-   this -> Clustering<T>::operator=(D);
+    this -> Clustering<T>::operator=(D);
     this -> mEps = D.mEps;
     this -> mMinPts = D.mMinPts;
     auto tmp = this -> mIsPtVisT;
