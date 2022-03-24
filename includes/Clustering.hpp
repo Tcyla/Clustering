@@ -139,8 +139,7 @@ Clustering<T>& Clustering<T>::operator=(const Clustering<T>& C)
         this -> mNbElemCluster[i] = C.mNbElemCluster[i];
     }
     delete [] tmp1;
-    return *this; // ! FIXME : testDBSCAN segfault here 
-
+    return *this;
 }
 
 
