@@ -6,6 +6,11 @@
 #include "DBSCAN.hpp"
 
 
+/*
+ * 
+ */
+
+
 /******************************************************
  *                       DBSCAN                       *
  ******************************************************/
@@ -16,6 +21,7 @@ using darray = valarray<double>;
 class testDBSCAN : public ::testing::Test, public DBSCAN<darray>
 {
     public:
+    NuagePoints<darray> n;
     DBSCAN<darray> db;
     testDBSCAN()
     {
@@ -25,12 +31,31 @@ class testDBSCAN : public ::testing::Test, public DBSCAN<darray>
                             valarray({1.51, 1.52}), 
                             valarray({1.51, 1.53}),
                             });
-        NuagePoints<darray> n(tab.size(), tab.data());
-        db = DBSCAN<darray>(1., 3, n);
+        n  = NuagePoints(tab.size(), tab.data());
+        db = DBSCAN(1., 3, n);
     }
 };
 
-TEST_F(testDBSCAN, testCalculClusters)
+TEST_F(testDBSCAN, testEpsilon)
 {
-    
+    ASSERT_EQ(db.epsilon(), 1.); 
+    db.epsilon(.4);
+    ASSERT_EQ(db.epsilon(), .4);
+    ASSERT_THROW(db.epsilon(-4), invalid_argument);
+}
+
+TEST_F(testDBSCAN, testMinPts)
+{
+    ASSERT_EQ(db.minPts() ,3);
+    db.minPts(7);
+    ASSERT_EQ(db.minPts(),7);
+    ASSERT_THROW(db.minPts(-4), invalid_argument);
+}
+
+TEST_F(testDBSCAN, testCalculCluster)
+{
+    ASSERT_EQ( db[0], -10  ); // point 0 : bruit
+    ASSERT_EQ( db[1],   0  ); // point 1 : cluster 0
+    ASSERT_EQ( db[2],   0  ); // point 2 : cluster 0
+    ASSERT_EQ( db[3],   0  ); // point 3 : cluster 0
 }
