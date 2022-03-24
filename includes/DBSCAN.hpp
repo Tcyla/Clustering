@@ -153,7 +153,7 @@ DBSCAN<T>& DBSCAN<T>::operator=(const DBSCAN<T>& D)
     this -> mMinPts = D.mMinPts;
     auto tmp = this -> mIsPtVisT;
     this -> mIsPtVisT = new bool[D.get_nuage_size()];
-    for (auto i = 0u ; D.get_nuage_size() ; ++i)
+    for (auto i = 0u ; i < D.get_nuage_size() ; ++i)
     {
         mIsPtVisT[i] = D.mIsPtVisT[i];
     }
