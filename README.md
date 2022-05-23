@@ -1,45 +1,48 @@
 # Apprentissage non-supervisé : Clustering (Projet L3 S6)
 
 ## Introduction
-def clustering et classification
+Les problèmes de clustering visent à séparer un jeu de donner en plusieurs ensembles, appelés clusters, tel que les points ce trouvant à l'intérieur d'un cluster soit le plus proches possible les uns des autres et le plus éloigné possible de ceux des autres clusters. La proximité entre deux points est définie par l'utilisateur et dépand du type de donnée étudier. 
 
 ## K-Moyennes
 L'algorithme des K-Moyennes est un algorithme de Clustering par optimisation. Le but est de trouver l'ensemble $S = (S_1, \dots, S_K)$ qui minimise la variation interne des clusters (*Total within cluster variation* ou TWCV)
 
-$TWCV  \overset{\Delta}{=} \sum_{i=1}^K\sum_{x\in S_i}{\|x - c_i\|^2}$
+$$TWCV  \overset{\Delta}{=} \sum_{i=1}^K\sum_{x\in S_i}{d(x, c_i)}$$
 
-avec $K$ le nombre de clusters, $S_i$ l'ensemble des points du cluster $i\in\{1\dots K\}$ et $c_i$ le centre du cluster $i$.  
+avec $K$ le nombre de clusters, $S_i$ l'ensemble des points du cluster $i\in\{1\dots K\}$, $d$ la distance et $c_i$ le centre du cluster $i$.  
 
 ### Algorithme utilisé
 
-```()
+```
 1. Inialiser les clusters avec des valeurs aléatoirement 
    choisie parmi les points. TWCV[0] = +∞, compte=0.
 2. Assigner chaque point au cluster dont le centre lui est le 
    plus proche (ie trouver i* tel ||x-c_i*|| = min_i(||x-c_i||)).
 3. Calculer TWCV[compte+1].
-4. Si TWCV[compte+1]<TWCV[compte], incrémenter compte de 1
+4. Si TWCV[compte+1] < TWCV[compte], incrémenter compte de 1
    puis reprendre à l'étape 2. 
    Sinon, terminer le programme.
 ```
-
-### Analyse
-#### Arrêt 
 
 #### Correction
 L'algorithme ne converge pas vers le minimum global mais vers un minimum local. Ce minimum est fortement impacté par le choix des points d'initialisation qui est aléatoire. Il est donc conseillé de relancer plusieur fois l'algorithme et de choisir le résultat ayant la plus petite TWCV.
 
 
 ## DBSCAN
-Contrairement à l'algorithme des K-Moyennes, DBSCAN  (*density-based spatial clustering of applications with noise*) 
- est un algorithme de clustering par densité. 
+
+Contrairement à l'algorithme des K-Moyennes, DBSCAN  (*density-based spatial clustering of applications with noise*) est un algorithme de clustering à densité. On définie un cluster par un nombre de points minimum $n$ pour être un cluster et un paramètre $\varepsilon$. Ce dernier paramètre sert au calcul des $\varepsilon$-voisinages. 
+
+L' $\varepsilon$-voisinages d'un point $x$ est l'ensemble des points distants d'au plus $\varepsilon$ de $x$. Un cluster est alors un ensemble de points de cardinal suppérieur ou égal à $n$ et qui verifie:
+
+> Pour tous points $A$ et $B$ du cluster, il existe une suite de points du cluster $(x_i)$ avec $x_0= A$ et $x_{i+1} \in \varepsilon\text{-voisinage}(x_i)$ tel que $B$ appartient à l'ensemble
+>$$ \bigcup_i \text{ $\varepsilon$-voisinage}(x_i). $$
+
 
 ### Algorithme utilisé
 
 Voici la reproduction de l'algorithme DBSCAN, tel que proposé par
 Kriegel et Xu dans leur article de 1996.
 
-```()
+```
 DBSCAN (SetOfPoints, Eps, MinPts)
    //  SetOfPoints is  UNCLASSIFIED
    ClusterId :=  nextId(NOISE);
@@ -86,17 +89,23 @@ ExpandCluster (SetOfPoints, Point,  CiId,  Eps,
 END;
 ```
 
-### Analyse
-
 ## Résutats et Discussion
 
 ![résultats](result.png)
 
+Dans le premier exemple on est face a un exemple de clusters bien définie à la fois dense et séparé de l'autre cluster ainsi DBSCAN eT KMeans avec $K = 2$ donne le même résultat. Cela mais en evidence une
+
+Dans le second example, on s'attendrait à avoir deux clusters le premier étant le cercle central et le second le cercle exterieur mai aucun des deux algorithmes ne parvient à se résultat.
+KMeans sépare les points en deux groupes selon une droite. Ce comportant est du à la nature de Kmean qui cherche à diviser les points en $K$ groupes dont les points sont les plus proches possible de leur barycentre, la courone exterieur ayant le même barycentre que la courone intérieur et les points de la couronnes exterieur étant plus éloigné de leur barycentre que les points de la couronne intérieur, la couronne extérieur ne peux pas être considéré comme une cluster valable pour l'algorithme KMeans.
+DBSCAN, au contraire, est conçu autour de la notion de densité, il identifie commme faisant partie d'un même cluster tous les points pouvant être relié par une chaine de points distant d'au plus $\varepsilon$ les uns des autres. C'est pourquoi la courone extérieur est classifié comme du bruit. S'il y avait eu plus de point utilisé l'algorithme aurait classifié la couronne extérieur comme un deuxième cluster. DBSCAN semble donc plus adapter à ce genre de données.
+
 ## Conclusion et pistes d'amélioration
+
+Les algorithmes de clustering étant des algorithmes non supervisés, il est difficile de définir les résultats qui sont sensé être obtenu. La définition des clusters la plus approprié ainsi que celle de la norme utilisé et les paramètres de la méthodes influence grandement le résultat de la méthodes. Il s'agit donc d'utiliser ses algorithmes précautionneusement et de bien définir les objectifs fixés.
 
 ## Sources
 
-### Générale
+### Général
 *R. Xu and D. C. Wunsch, "Survey of Clustering Algorithms," IEEE Transactions on Neural Networks,
 Institute of Electrical and Electronics Engineers (IEEE), May 2005.*
 
@@ -121,7 +130,7 @@ in Large Spatial Databaseswith Noise” in Proceedings of the 2nd International 
 ```bash
     apt install gnuplot-qt
 ```
-En mode `RELEASE` cmake Utilise la sortie graphique si GNUPLOT est disponible, en mode `DBG` , il faut affecter `TRUE` à la variable `USE_SCIPLOT`
+En mode `RELEASE` cmake utilise la sortie graphique si GNUPLOT est disponible, en mode `DBG` , il faut affecter `TRUE` à la variable `USE_SCIPLOT`
 
 ```bash
     cmake -D USE_SCIPLOT=TRUE ..
