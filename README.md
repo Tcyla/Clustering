@@ -127,14 +127,14 @@ in Large Spatial Databaseswith Noise” in Proceedings of the 2nd International 
 
 #### Ubuntu
 
-```bash
-    apt install gnuplot-qt
+```
+# apt install gnuplot-qt
 ```
 En mode `RELEASE` cmake utilise la sortie graphique si GNUPLOT est disponible, en mode `DBG` , il faut affecter `TRUE` à la variable `USE_SCIPLOT`
 
 ```bash
-    cmake -D USE_SCIPLOT=TRUE ..
-    make
+$ cmake -D USE_SCIPLOT=TRUE ..
+$ make
 ```
 
 ### Exécuter
