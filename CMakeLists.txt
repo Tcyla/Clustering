@@ -32,18 +32,7 @@ FetchContent_MakeAvailable(googletest)
 include(FindGnuplot)
 if (GNUPLOT_FOUND)
   message("GNUPLOT has been found, installing SCIPLOT")
-  # Install Sciplot 
-  FetchContent_Declare(sciplot_content
-    GIT_REPOSITORY https://github.com/sciplot/sciplot.git
-    GIT_TAG master)
-
-  FetchContent_GetProperties(sciplot_content)
-  if(NOT sciplot_content_POPULATED)
-    FetchContent_Populate(sciplot_content)
-  endif()
-
-  # add sciplot dir to project
-  include_directories(${sciplot_content_SOURCE_DIR})
+  include_directories(deps/sciplot-master)
 
 else()
   message("GNUPLOT was not found")
@@ -56,7 +45,7 @@ endif()
 
 # On choisit un type de compilation par défaut
 if(NOT CMAKE_BUILD_TYPE)
-        set(CMAKE_BUILD_TYPE DBG)
+        set(CMAKE_BUILD_TYPE RELEASE)
 endif()
 
 if(NOT USE_SCIPLOT)
