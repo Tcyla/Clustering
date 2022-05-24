@@ -237,7 +237,7 @@ int main()
                               };
         
         fig.size(600, 600);
-        fig.palette("matlab");
+        // fig.palette("matlab");
         fig.show();
         fig.save("../result.png");
         
