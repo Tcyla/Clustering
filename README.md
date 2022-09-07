@@ -1,4 +1,4 @@
-# Apprentissage non-supervisé : Clustering (Projet L3 S6)
+# Apprentissage non-supervisé : Clustering (Projet L3)
 
 ## Introduction
 Les problèmes de clustering visent à séparer un jeu de donner en plusieurs ensembles, appelés clusters, tel que les points ce trouvant à l'intérieur d'un cluster soit le plus proches possible les uns des autres et le plus éloigné possible de ceux des autres clusters. La proximité entre deux points est définie par l'utilisateur et dépand du type de donnée étudier. 
