@@ -34,7 +34,7 @@ Contrairement à l'algorithme des K-Moyennes, DBSCAN  (*density-based spatial cl
 L' $\varepsilon$-voisinages d'un point $x$ est l'ensemble des points distants d'au plus $\varepsilon$ de $x$. Un cluster est alors un ensemble de points de cardinal suppérieur ou égal à $n$ et qui verifie:
 
 > Pour tous points $A$ et $B$ du cluster, il existe une suite de points du cluster $(x_i)$ avec $x_0= A$ et $x_{i+1} \in \varepsilon\text{-voisinage}(x_i)$ tel que $B$ appartient à l'ensemble
->$ \bigcup_i \text{ $\varepsilon$-voisinage}(x_i). $
+>$$\bigcup_i \text{ $\varepsilon$-voisinage}(x_i).$$
 
 
 ### Algorithme utilisé
