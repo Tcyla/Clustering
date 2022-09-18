@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.3)
 # Set Project Name
 project(clustering VERSION 0.5)
 
-# GoogleTest requires at least C++11
+# Set CPP Minimal Version
 set(CMAKE_CXX_STANDARD 17)
 
 
